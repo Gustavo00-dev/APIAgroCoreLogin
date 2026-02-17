@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: agrocorelogin
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: agrocorelogin
+
+  template:
+    metadata:
+      labels:
+        app: agrocorelogin
+
+    spec:
+      containers:
+        - name: agrocorelogin
+          image: euturial/agrocorelogin:latest
+
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: 8080
