@@ -1,8 +1,13 @@
+using APIAgroCoreLogin.Configuracao;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+//Dependencies
+builder.Services.ResolveDependencies();
 
 var app = builder.Build();
 
