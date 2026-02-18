@@ -7,6 +7,7 @@ namespace APIAgroCoreLogin.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
+
         }
 
         public DbSet<Usuario> Usuarios { get; set; }
