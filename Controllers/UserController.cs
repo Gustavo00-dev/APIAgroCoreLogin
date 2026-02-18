@@ -1,7 +1,6 @@
 ﻿using APIAgroCoreLogin.Model;
 using APIAgroCoreLogin.Repository;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace APIAgroCoreLogin.Controllers
@@ -23,9 +22,15 @@ namespace APIAgroCoreLogin.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("login")]
-        public IActionResult Login([FromBody] BasicUserRequestModel request)
+        public async Task<IActionResult> Login([FromBody] BasicUserRequestModel request)
         {
-            if (request.Email == "admin" && request.Senha == "password")
+            if (request == null || string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Senha))
+            {
+                return BadRequest(new { Message = "Invalid user data" });
+            }
+
+            var user = await _userRepository.GetByEmailAndSenhaAsync(request.Email, request.Senha);
+            if (user != null)
             {
                 return Ok(new { Message = "Login successful" });
             }
@@ -43,7 +48,15 @@ namespace APIAgroCoreLogin.Controllers
                 return BadRequest(new { Message = "Invalid user data" });
             }
 
-            return Created(string.Empty, new { Message = "User created successfully" });
+            var usuario = new Usuario
+            {
+                Email = request.Email,
+                Senha = request.Senha
+            };
+
+            var created = await _userRepository.CreateAsync(usuario);
+
+            return CreatedAtAction(nameof(CreateUser), new { id = created.Id }, new { Message = "User created successfully", UserId = created.Id });
         }
     }
 }

@@ -1,14 +1,31 @@
+using APIAgroCoreLogin.Data;
 using APIAgroCoreLogin.Model;
-using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace APIAgroCoreLogin.Repository
 {
     public class UserRepository : IUserRepository
     {
+        private readonly ApplicationDbContext _context;
 
-        public UserRepository()
+        public UserRepository(ApplicationDbContext context)
         {
+            _context = context;
         }
 
+        public async Task<Usuario?> GetByEmailAndSenhaAsync(string email, string senha)
+        {
+            return await _context.Usuarios
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Email == email && u.Senha == senha);
+        }
+
+        public async Task<Usuario> CreateAsync(Usuario usuario)
+        {
+            _context.Usuarios.Add(usuario);
+            await _context.SaveChangesAsync();
+            return usuario;
+        }
     }
 }
