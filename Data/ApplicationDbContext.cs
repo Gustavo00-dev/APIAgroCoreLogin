@@ -19,7 +19,7 @@ namespace APIAgroCoreLogin.Data
             modelBuilder.Entity<Usuario>(entity =>
             {
                 entity.ToTable("usuario");
-                entity.HasKey(e => e.Id);
+                entity.HasKey(e => e.IdUsers);
                 entity.Property(e => e.Email).HasColumnName("email").IsRequired();
                 entity.Property(e => e.Senha).HasColumnName("senha").IsRequired();
             });

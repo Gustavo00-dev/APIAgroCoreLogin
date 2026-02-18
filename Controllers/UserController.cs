@@ -56,7 +56,7 @@ namespace APIAgroCoreLogin.Controllers
 
             var created = await _userRepository.CreateAsync(usuario);
 
-            return CreatedAtAction(nameof(CreateUser), new { id = created.Id }, new { Message = "User created successfully", UserId = created.Id });
+            return CreatedAtAction(nameof(CreateUser), new { id = created.IdUsers }, new { Message = "User created successfully", UserId = created.IdUsers });
         }
     }
 }
