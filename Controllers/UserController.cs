@@ -43,8 +43,6 @@ namespace APIAgroCoreLogin.Controllers
                 return BadRequest(new { Message = "Invalid user data" });
             }
 
-            await _userRepository.CreateAsync(request);
-
             return Created(string.Empty, new { Message = "User created successfully" });
         }
     }
