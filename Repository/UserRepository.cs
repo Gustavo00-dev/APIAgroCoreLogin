@@ -23,6 +23,12 @@ namespace APIAgroCoreLogin.Repository
 
         public async Task<Usuario> CreateAsync(Usuario usuario)
         {
+            var dbName = _context.Database.GetDbConnection().Database;
+            var dataSource = _context.Database.GetDbConnection().DataSource;
+
+            Console.WriteLine($"Banco: {dbName}");
+            Console.WriteLine($"Servidor: {dataSource}");
+
             _context.Usuarios.Add(usuario);
             await _context.SaveChangesAsync();
             return usuario;
